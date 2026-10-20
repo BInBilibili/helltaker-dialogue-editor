@@ -20,6 +20,22 @@
     "logo": { "file": "helltaker-logo.png", "source": "user-provided title screenshot (image 2), white wordmark extracted from red background" },
     "placeholder": { "file": "portrait-placeholder.svg", "source": "original placeholder art; not a game asset" }
   },
+  "samples": {
+    "folder": "portraits",
+    "note": "AI-drawn fan art supplied by the editor author for the demo project; not game assets. WebP, max side 1100px, transparent background.",
+    "portraits": [
+      { "file": "murasame-1.webp", "name": "丛雨 · 叉腰", "size": [972, 1100] },
+      { "file": "murasame-2.webp", "name": "丛雨 · 抱臂", "size": [979, 1100] },
+      { "file": "bride-1.webp", "name": "梦游神玩 · 墨镜", "size": [703, 1100] },
+      { "file": "bride-2.webp", "name": "梦游神玩 · 托腮", "size": [770, 1100] },
+      { "file": "maid-1.webp", "name": "女仆 · 墨镜", "size": [733, 1100] },
+      { "file": "maid-2.webp", "name": "女仆 · 手持墨镜", "size": [733, 1100] }
+    ],
+    "scenes": [
+      { "file": "trio-1.webp", "name": "三小只 · 大笑", "size": [1100, 733] },
+      { "file": "trio-2.webp", "name": "三小只 · 比耶", "size": [1100, 733] }
+    ]
+  },
   "frames": {
     "booper": { "folder": "booper", "count": 17, "source": "booper0001..booper0017", "tint": "#ff2f4a", "usage": "idle click indicator", "still": "booper.png" },
     "success": { "folder": "success", "count": 16, "source": "success0001..success0016", "usage": "01-08 SUCCESS; 09-16 GLORIOUS SUCCESS; black background removed to alpha", "stills": ["success.png", "success-glorious.png"] },
@@ -80,7 +96,7 @@
     { "file": "badend.wav", "source": "bad_end_screen_01.wav" }
   ],
   "excluded": [
-    "character portraits (use your own transparent PNGs)",
+    "original-game character portraits (the /portraits samples are original AI fan art; see samples)",
     "BGM / music",
     "gameplay levels, puzzles, enemies",
     "3D demon gate title background (not a single extracted 2D texture)"

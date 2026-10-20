@@ -108,6 +108,21 @@
     { src: "assets/ui/chapter-bg-08.png", name: "章节背景 08", kind: "背景" },
   ];
 
+  // 内置示例素材：AI 绘制的同人图，放在 assets/portraits/，不用上传就能直接选用。
+  const SAMPLE_PORTRAITS = [
+    { src: "assets/portraits/murasame-1.webp", name: "丛雨 · 叉腰", kind: "立绘" },
+    { src: "assets/portraits/murasame-2.webp", name: "丛雨 · 抱臂", kind: "立绘" },
+    { src: "assets/portraits/bride-1.webp", name: "梦游神玩 · 墨镜", kind: "立绘" },
+    { src: "assets/portraits/bride-2.webp", name: "梦游神玩 · 托腮", kind: "立绘" },
+    { src: "assets/portraits/maid-1.webp", name: "女仆 · 墨镜", kind: "立绘" },
+    { src: "assets/portraits/maid-2.webp", name: "女仆 · 手持墨镜", kind: "立绘" },
+  ];
+
+  const SAMPLE_SCENES = [
+    { src: "assets/portraits/trio-1.webp", name: "三小只 · 大笑", kind: "剧情图" },
+    { src: "assets/portraits/trio-2.webp", name: "三小只 · 比耶", kind: "剧情图" },
+  ];
+
   const BUILTIN_CUTSCENES = [
     { src: ASSET.cutscene[0], name: "剧情 00 · 王座", kind: "剧情图" },
     { src: ASSET.cutscene[1], name: "剧情 01 · 恶魔", kind: "剧情图" },
@@ -118,10 +133,12 @@
     { src: ASSET.cutscene[6], name: "剧情 06 · 酒吧", kind: "剧情图" },
     { src: ASSET.cutscene[7], name: "剧情 07 · 骷髅", kind: "剧情图" },
     { src: ASSET.cutscene[8], name: "剧情 08 · 聚会", kind: "剧情图" },
+    ...SAMPLE_SCENES,
   ];
 
   const BUILTIN_PORTRAITS = [
     { src: ASSET.placeholder, name: "占位剪影 · 替换为你的立绘", kind: "立绘" },
+    ...SAMPLE_PORTRAITS,
   ];
 
   const BUILTIN_ALL = [
@@ -218,6 +235,30 @@
           text: "别磨蹭了，我们还有很多事要做。",
           background: ASSET.bgHell,
           portrait: ASSET.placeholder,
+          portraitPos: "center",
+          portraitScale: 100,
+          checkpoint: true,
+          choices: [],
+          next: "n_show",
+        },
+        {
+          id: "n_show",
+          type: "cutscene",
+          name: "示例 · 三小只",
+          image: SAMPLE_SCENES[0].src,
+          imageFit: "contain",
+          text: "这是内置示例剧情图：不用上传，右侧「剧情图」里就能换。",
+          showIndicator: true,
+          next: "n_show2",
+        },
+        {
+          id: "n_show2",
+          type: "dialogue",
+          name: "示例 · 立绘",
+          speaker: "MURASAME",
+          text: "内置示例立绘都在右侧「立绘」里，也可以上传你自己的透明 PNG。",
+          background: ASSET.bgThrone,
+          portrait: SAMPLE_PORTRAITS[0].src,
           portraitPos: "center",
           portraitScale: 100,
           checkpoint: true,

@@ -41,7 +41,9 @@
 
   const STORAGE_KEY = "helltaker-dialogue-editor-v1";
   const MUTE_KEY = "helltaker-dialogue-editor-muted";
-  const MAX_UPLOAD = 2 * 1024 * 1024;
+  const ASSET_DB_NAME = "helltaker-dialogue-editor-assets";
+  const ASSET_DB_VERSION = 1;
+  const ASSET_STORE = "assets";
 
   /* ---------------------------------------------------------
      Built-in assets
@@ -274,7 +276,16 @@
     p.settings = Object.assign({ textSpeed: 20 }, p.settings || {});
     p.settings.textSpeed = clamp(Number(p.settings.textSpeed) || 20, 8, 80);
     p.assets = Array.isArray(p.assets)
-      ? p.assets.filter((a) => a && a.id && typeof a.data === "string")
+      ? p.assets
+          .filter((a) => a && typeof a.id === "string" && a.id)
+          .map((a) => {
+            const asset = {
+              id: a.id,
+              name: typeof a.name === "string" && a.name ? a.name : "上传图片",
+            };
+            if (typeof a.data === "string" && a.data.startsWith("data:")) asset.data = a.data;
+            return asset;
+          })
       : [];
 
     const seen = new Set();
@@ -411,6 +422,166 @@
   }
 
   /* ---------------------------------------------------------
+     Uploaded assets (IndexedDB, no size cap)
+     --------------------------------------------------------- */
+
+  let assetDbPromise = null;
+  const assetUrls = new Map(); // id -> blob: URL
+  const assetBlobs = new Map(); // id -> Blob (export / fallback)
+
+  function dataUrlToBlob(dataUrl) {
+    try {
+      const text = String(dataUrl);
+      const comma = text.indexOf(",");
+      if (comma < 0) return null;
+      const meta = text.slice(0, comma);
+      const body = text.slice(comma + 1);
+      const mime = (/data:([^;]+)/.exec(meta) || [])[1] || "image/png";
+      const isBase64 = /;base64/i.test(meta);
+      const binary = isBase64 ? atob(body) : decodeURIComponent(body);
+      const bytes = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i);
+      return new Blob([bytes], { type: mime });
+    } catch (error) {
+      console.warn("dataUrlToBlob failed", error);
+      return null;
+    }
+  }
+
+  function blobToDataUrl(blob) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(String(reader.result));
+      reader.onerror = () => reject(reader.error || new Error("read failed"));
+      reader.readAsDataURL(blob);
+    });
+  }
+
+  function openAssetDb() {
+    if (assetDbPromise) return assetDbPromise;
+    assetDbPromise = new Promise((resolve) => {
+      if (!("indexedDB" in window)) return resolve(null);
+      let request;
+      try {
+        request = indexedDB.open(ASSET_DB_NAME, ASSET_DB_VERSION);
+      } catch (error) {
+        console.warn("IndexedDB open failed", error);
+        return resolve(null);
+      }
+      request.onupgradeneeded = () => {
+        const db = request.result;
+        if (!db.objectStoreNames.contains(ASSET_STORE)) {
+          db.createObjectStore(ASSET_STORE, { keyPath: "id" });
+        }
+      };
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => {
+        console.warn("IndexedDB unavailable", request.error);
+        resolve(null);
+      };
+      request.onblocked = () => resolve(null);
+    });
+    return assetDbPromise;
+  }
+
+  async function dbPutAsset(record) {
+    const db = await openAssetDb();
+    if (!db) throw new Error("IndexedDB unavailable");
+    await new Promise((resolve, reject) => {
+      const tx = db.transaction(ASSET_STORE, "readwrite");
+      tx.objectStore(ASSET_STORE).put(record);
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error || new Error("put failed"));
+      tx.onabort = () => reject(tx.error || new Error("put aborted"));
+    });
+  }
+
+  async function dbGetAsset(id) {
+    const db = await openAssetDb();
+    if (!db) return null;
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(ASSET_STORE, "readonly");
+      const request = tx.objectStore(ASSET_STORE).get(id);
+      request.onsuccess = () => resolve(request.result || null);
+      request.onerror = () => reject(request.error);
+    });
+  }
+
+  async function dbClearAssets() {
+    const db = await openAssetDb();
+    if (!db) return;
+    await new Promise((resolve, reject) => {
+      const tx = db.transaction(ASSET_STORE, "readwrite");
+      tx.objectStore(ASSET_STORE).clear();
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+    });
+  }
+
+  function attachAssetUrl(id, blob) {
+    assetBlobs.set(id, blob);
+    const previous = assetUrls.get(id);
+    if (previous) URL.revokeObjectURL(previous);
+    assetUrls.set(id, URL.createObjectURL(blob));
+  }
+
+  async function storeAssetBlob(blob, { id, name }) {
+    try {
+      await dbPutAsset({
+        id,
+        name,
+        blob,
+        type: blob.type || "",
+        size: blob.size || 0,
+        addedAt: Date.now(),
+      });
+      attachAssetUrl(id, blob);
+      return true;
+    } catch (error) {
+      console.warn("IndexedDB store failed", error);
+      return false;
+    }
+  }
+
+  async function initAssetStorage() {
+    const db = await openAssetDb();
+    let migrated = 0;
+    for (const asset of project.assets) {
+      if (assetUrls.has(asset.id)) continue;
+      const stored = db ? await dbGetAsset(asset.id).catch(() => null) : null;
+      if (stored && stored.blob) {
+        attachAssetUrl(asset.id, stored.blob);
+      } else if (typeof asset.data === "string" && asset.data.startsWith("data:")) {
+        const blob = dataUrlToBlob(asset.data);
+        if (!blob) continue;
+        const ok = db ? await storeAssetBlob(blob, { id: asset.id, name: asset.name }) : false;
+        if (!ok) attachAssetUrl(asset.id, blob);
+        migrated += 1;
+      }
+    }
+    // 迁移成功后从项目 JSON 里剔除 data:URL，localStorage 只留元数据。
+    let changed = false;
+    if (db) {
+      for (const asset of project.assets) {
+        if (typeof asset.data === "string" && assetUrls.has(asset.id)) {
+          delete asset.data;
+          changed = true;
+        }
+      }
+    }
+    if (migrated) {
+      setSaveStatus("素材已迁移到浏览器数据库");
+      if (changed) saveNow(false);
+    }
+  }
+
+  function clearAssetCache() {
+    for (const url of assetUrls.values()) URL.revokeObjectURL(url);
+    assetUrls.clear();
+    assetBlobs.clear();
+  }
+
+  /* ---------------------------------------------------------
      DOM / init
      --------------------------------------------------------- */
 
@@ -441,12 +612,14 @@
     els.toast = $("#toast");
   }
 
-  function init() {
+  async function init() {
     cacheEls();
     bindEvents();
     preloadAnimationAssets();
     els.muteCheckbox.checked = muted;
     updateGameAudioUI();
+
+    await initAssetStorage();
 
     const params = new URLSearchParams(location.search);
     const nodeParam = params.get("node");
@@ -1491,8 +1664,13 @@
   function resolveAsset(src) {
     if (!src) return "";
     if (src.startsWith("asset:")) {
-      const asset = project.assets.find((a) => a.id === src.slice(6));
-      return asset ? asset.data : "";
+      const id = src.slice(6);
+      const url = assetUrls.get(id);
+      if (url) return url;
+      const asset = project.assets.find((a) => a.id === id);
+      if (!asset) return "";
+      // 旧数据 / IndexedDB 不可用时的兜底：内联 data:URL
+      return typeof asset.data === "string" ? asset.data : "";
     }
     return src;
   }
@@ -1535,9 +1713,9 @@
             <div class="asset-grid" id="asset-grid"></div>
           </div>
           <div class="modal-foot">
-            <span class="hint">支持 PNG / JPG / WEBP，单张不超过 2MB。上传素材会写入项目 JSON。</span>
+            <span class="hint">支持 PNG / JPG / WEBP / GIF，可一次多选，不限单张大小。</span>
             <label class="btn small primary" for="asset-upload">上传图片</label>
-            <input id="asset-upload" type="file" accept="image/png,image/jpeg,image/webp,image/gif" hidden>
+            <input id="asset-upload" type="file" accept="image/*" multiple hidden>
             <button class="btn small ghost" type="button" data-modal-close="1">取消</button>
             ${assetPicker.target !== "portrait" || true ? `<button class="btn small ghost" type="button" data-asset-clear="1">清除</button>` : ""}
           </div>
@@ -1607,29 +1785,64 @@
     renderStage();
   }
 
-  function handleUpload(file) {
-    if (!file || !assetPicker) return;
-    if (!file.type.startsWith("image/")) {
+  function setAssetTab(tab) {
+    if (!assetPicker) return;
+    assetPicker.tab = tab;
+    $$(".asset-tab", els.modalRoot).forEach((el) => {
+      el.classList.toggle("active", el.dataset.assetTab === tab);
+    });
+    renderAssetGrid();
+  }
+
+  async function handleUploads(files) {
+    if (!assetPicker) return;
+    const list = Array.from(files || []).filter((file) => file && file.type.startsWith("image/"));
+    if (!list.length) {
       toast("请选择图片文件", true);
       return;
     }
-    if (file.size > MAX_UPLOAD) {
-      toast("图片超过 2MB，请先压缩（建议立绘 800-1200px 高）", true);
+
+    const db = await openAssetDb();
+    const added = [];
+    let inlineBytes = 0;
+
+    for (const file of list) {
+      const id = uid("a");
+      const name = file.name.replace(/\.[^.]+$/, "") || "上传图片";
+      const asset = { id, name };
+
+      const stored = db ? await storeAssetBlob(file, { id, name }) : false;
+      if (!stored) {
+        // IndexedDB 不可用时的兜底：退回内联 data:URL（会占用 localStorage 配额）
+        try {
+          asset.data = await blobToDataUrl(file);
+          inlineBytes += file.size;
+        } catch (error) {
+          console.warn("read upload failed", error);
+          continue;
+        }
+      }
+      project.assets.push(asset);
+      added.push(asset);
+    }
+
+    if (!added.length) {
+      toast("图片读取失败", true);
       return;
     }
-    const reader = new FileReader();
-    reader.onload = () => {
-      const id = uid("a");
-      project.assets.push({
-        id,
-        name: file.name.replace(/\.[^.]+$/, "") || "上传图片",
-        data: String(reader.result),
-      });
-      scheduleSave();
-      chooseAsset("asset:" + id);
-    };
-    reader.onerror = () => toast("读取图片失败", true);
-    reader.readAsDataURL(file);
+
+    scheduleSave();
+
+    if (added.length === 1) {
+      chooseAsset("asset:" + added[0].id);
+      return;
+    }
+
+    setAssetTab("upload");
+    toast(`已添加 ${added.length} 张素材，点缩略图切换`);
+    if (inlineBytes > 3 * 1024 * 1024) {
+      toast("素材较大且浏览器数据库不可用，请尽快导出 JSON 备份", true);
+    }
   }
 
   function closeModal() {
@@ -1999,9 +2212,10 @@
   }
 
   function onModalChange(event) {
-    if (event.target.id === "asset-upload" && event.target.files?.[0]) {
-      handleUpload(event.target.files[0]);
+    if (event.target.id === "asset-upload" && event.target.files?.length) {
+      const files = Array.from(event.target.files);
       event.target.value = "";
+      handleUploads(files);
     }
   }
 
@@ -2034,8 +2248,14 @@
      Project actions
      --------------------------------------------------------- */
 
-  function newProject() {
-    if (!window.confirm("新建项目会替换当前内容。建议先导出 JSON 备份。继续？")) return;
+  async function newProject() {
+    if (!window.confirm("新建项目会替换当前内容，已上传的素材也会一起清空。建议先导出 JSON 备份。继续？")) return;
+    try {
+      await dbClearAssets();
+    } catch (error) {
+      console.warn("clear assets failed", error);
+    }
+    clearAssetCache();
     project = defaultProject();
     selectedId = project.nodes[0].id;
     playing = false;
@@ -2044,24 +2264,40 @@
     toast("已新建示例项目");
   }
 
+  async function adoptImportedAssets(imported) {
+    const db = await openAssetDb();
+    for (const asset of imported.assets) {
+      if (typeof asset.data !== "string" || !asset.data.startsWith("data:")) continue;
+      const blob = dataUrlToBlob(asset.data);
+      if (!blob) continue;
+      const stored = db ? await storeAssetBlob(blob, { id: asset.id, name: asset.name }) : false;
+      if (stored) {
+        delete asset.data;
+      } else {
+        attachAssetUrl(asset.id, blob);
+      }
+    }
+  }
+
   function importProject(event) {
     const file = event.target.files?.[0];
     event.target.value = "";
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = () => {
+    reader.onload = async () => {
       try {
         const parsed = JSON.parse(String(reader.result));
         const imported = normalizeProject(parsed);
         if (!Array.isArray(imported.nodes) || imported.nodes.length === 0) {
           throw new Error("empty project");
         }
+        await adoptImportedAssets(imported);
         project = imported;
         selectedId = project.nodes[0].id;
         playing = false;
         saveNow(false);
         renderAll();
-        toast("项目已导入");
+        toast(`项目已导入（${project.assets.length} 张素材）`);
       } catch (error) {
         console.warn(error);
         toast("导入失败：不是有效的项目 JSON", true);
@@ -2071,9 +2307,33 @@
     reader.readAsText(file, "utf-8");
   }
 
-  function exportProject() {
+  async function exportProject() {
+    const assets = [];
+    for (const asset of project.assets) {
+      let data = typeof asset.data === "string" ? asset.data : "";
+      if (!data) {
+        let blob = assetBlobs.get(asset.id) || null;
+        if (!blob) {
+          try {
+            blob = (await dbGetAsset(asset.id))?.blob || null;
+          } catch (error) {
+            console.warn("read asset failed", error);
+          }
+        }
+        if (blob) {
+          try {
+            data = await blobToDataUrl(blob);
+          } catch (error) {
+            console.warn("encode asset failed", error);
+          }
+        }
+      }
+      assets.push(data ? { id: asset.id, name: asset.name, data } : { id: asset.id, name: asset.name });
+    }
+
     const payload = {
       ...project,
+      assets,
       exportedAt: new Date().toISOString(),
       generator: "Helltaker Dialogue Editor",
     };
@@ -2087,7 +2347,7 @@
     a.click();
     a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
-    toast("已导出 JSON（包含上传素材）");
+    toast(`已导出 JSON（${assets.length} 张素材）`);
   }
 
   function validateFlow(startId) {
@@ -2229,7 +2489,7 @@
               <li>内置素材来自游戏本体的 UI 图层：选项框、红眼指示器、BAD END / SUCCESS 帧、剧情图、转场动画、对话背景和字体。</li>
               <li>编辑预览里可以直接点背景 / 立绘 / 画面打开素材选择；右侧缩略图也可以点。剧情过场节点只有“画面”，SUCCESS 节点和对话节点一样有“背景 + 立绘”。</li>
               <li>立绘请上传你自己的透明 PNG。内置只有占位剪影。</li>
-              <li>单张上传限制 2MB；上传内容会写进项目 JSON。素材多时请及时导出备份。</li>
+              <li>一次可以多选图片上传，不限制单张大小；图片存放在浏览器的 IndexedDB 里（受磁盘剩余空间限制），项目 JSON 只保存引用。导出 JSON 时会把图片一起打包。</li>
             </ul>
             <h4>快捷键</h4>
             <ul>
@@ -2255,6 +2515,6 @@
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);
   } else {
-    init();
+    init().catch((error) => console.error("init failed", error));
   }
 })();

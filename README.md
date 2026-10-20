@@ -10,6 +10,9 @@
 
 ![编辑器预览](preview.png)
 
+**在线试用 / Live demo：** <https://binbilibili.github.io/helltaker-dialogue-editor/>
+（GitHub Pages，无需安装；数据存在浏览器 localStorage，换浏览器即独立项目）
+
 ---
 
 ## 1. 快速开始

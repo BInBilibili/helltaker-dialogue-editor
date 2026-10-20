@@ -1,0 +1,88 @@
+{
+  "editor": "Helltaker Dialogue Editor",
+  "source": "D:\\steam\\steamapps\\common\\Helltaker\\Helltaker_unpacked",
+  "note": "Local fan-made tool. Game UI, cutscene and audio assets remain the property of vanripper / Helltaker. Do not redistribute the assets as a standalone pack.",
+  "ui": {
+    "dialogue-backgrounds": [
+      { "file": "dialogue-bg-hell.png", "source": "dialogueBG_hell", "size": [1960, 544] },
+      { "file": "dialogue-bg-abyss.png", "source": "dialogueBG_abyss", "size": [1960, 544] },
+      { "file": "dialogue-bg-sin.png", "source": "dialogueBG_sin", "size": [1960, 544] },
+      { "file": "dialogue-bg-home.png", "source": "dialogueBG_home", "size": [1960, 544] },
+      { "file": "dialogue-bg-throne.png", "source": "dialogueBG_throne2", "size": [1960, 544] }
+    ],
+    "choice-frames": [
+      { "file": "choice-frame.png", "source": "button0004", "tint": "#b3122f", "size": [962, 77] },
+      { "file": "choice-frame-hover.png", "source": "button0003", "tint": "#ff3155", "size": [961, 80] },
+      { "file": "choice-frame-white.png", "source": "button0003", "size": [961, 80] },
+      { "file": "small-frame.png", "source": "button_small", "tint": "#b3122f", "size": [300, 77] },
+      { "file": "chapter-line.png", "source": "W_chapterSelect", "tint": "#b3122f", "size": [1438, 54] }
+    ],
+    "logo": { "file": "helltaker-logo.png", "source": "user-provided title screenshot (image 2), white wordmark extracted from red background" },
+    "placeholder": { "file": "portrait-placeholder.svg", "source": "original placeholder art; not a game asset" }
+  },
+  "frames": {
+    "booper": { "folder": "booper", "count": 17, "source": "booper0001..booper0017", "tint": "#ff2f4a", "usage": "idle click indicator", "still": "booper.png" },
+    "success": { "folder": "success", "count": 16, "source": "success0001..success0016", "usage": "01-08 SUCCESS; 09-16 GLORIOUS SUCCESS; black background removed to alpha", "stills": ["success.png", "success-glorious.png"] },
+    "badend": { "folder": "badend", "count": 9, "source": "dialogueDeathExport0001..0009", "usage": "BAD END reveal animation; black background removed to alpha", "still": "badend.png" }
+  },
+  "cutscenes": {
+    "folder": "cutscene",
+    "count": 9,
+    "files": [
+      "cutscene-0000.png",
+      "cutscene-0001.png",
+      "cutscene-0002.png",
+      "cutscene-0003.png",
+      "cutscene-0004.png",
+      "cutscene-0005.png",
+      "cutscene-0006.png",
+      "cutscene-0007.png",
+      "cutscene-0008.png"
+    ],
+    "source": "cutscene_0000..cutscene_0008",
+    "notes": "0002 is the opening wake-up frame; 0003 is the mirror."
+  },
+  "transitions": {
+    "folder": "transition",
+    "count": 29,
+    "source": "transition0002..transition0030",
+    "close": "transition-0002..transition-0021",
+    "open": "transition-0022..transition-0030",
+    "runtimeFolder": "runtime",
+    "runtimeWidth": 960,
+    "fps": 30,
+    "audio": ["screen_changer_part1_01.wav", "screen_changer_part2_01.wav"],
+    "usage": "HELLTAKER gate transition: opening cutscene, BAD END retry/restart, SUCCESS"
+  },
+  "chapter-backgrounds": {
+    "files": [
+      "chapter-bg-01.png",
+      "chapter-bg-02.png",
+      "chapter-bg-03.png",
+      "chapter-bg-04.png",
+      "chapter-bg-05.png",
+      "chapter-bg-06.png",
+      "chapter-bg-07.png",
+      "chapter-bg-08.png"
+    ],
+    "source": "chapterBG0001..chapterBG0008"
+  },
+  "fonts": [
+    { "file": "CrimsonPro-Medium.ttf", "source": "game embedded font" },
+    { "file": "Amiri-Regular.ttf", "source": "game embedded font" },
+    { "file": "Segment7Standard.ttf", "source": "game embedded font" }
+  ],
+  "audio": [
+    { "file": "dialogue-start.wav", "source": "dialogue_start_01.wav" },
+    { "file": "choice-move.wav", "source": "button_dialogue_highlight_01.wav" },
+    { "file": "choice-confirm.wav", "source": "button_dialogue_confirm_01.wav" },
+    { "file": "success.wav", "source": "dialogue_success_01.wav" },
+    { "file": "badend.wav", "source": "bad_end_screen_01.wav" }
+  ],
+  "excluded": [
+    "character portraits (use your own transparent PNGs)",
+    "BGM / music",
+    "gameplay levels, puzzles, enemies",
+    "3D demon gate title background (not a single extracted 2D texture)"
+  ]
+}

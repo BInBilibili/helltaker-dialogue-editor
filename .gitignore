@@ -1,0 +1,11 @@
+# 制图工作区（AI 生图草稿 / 第三方参考图），不属于编辑器本体，不上传
+制图文件夹/
+
+# 系统与编辑器杂项
+Thumbs.db
+Desktop.ini
+.DS_Store
+.vscode/
+.idea/
+__pycache__/
+*.log

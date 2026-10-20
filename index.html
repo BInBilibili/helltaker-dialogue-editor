@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HELLTAKER · Dialogue Editor</title>
+<link rel="icon" href="assets/ui/helltaker-logo.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+
+  <header id="topbar">
+    <div class="brand">
+      <img class="brand-logo" src="assets/ui/helltaker-logo.png" alt="HELLTAKER">
+      <div class="brand-copy">
+        <h1>DIALOGUE EDITOR</h1>
+        <span>同人对话编辑器 · 本地工具</span>
+      </div>
+    </div>
+
+    <label class="project-title">
+      <span>PROJECT</span>
+      <input id="project-title" type="text" maxlength="60" spellcheck="false">
+    </label>
+
+    <div class="top-actions">
+      <button id="btn-new" class="btn ghost" type="button">新建</button>
+      <button id="btn-import" class="btn ghost" type="button">导入</button>
+      <button id="btn-export" class="btn primary" type="button">导出 JSON</button>
+      <button id="btn-help" class="btn ghost square" type="button" title="使用说明">?</button>
+      <input id="import-file" type="file" accept=".json,application/json" hidden>
+    </div>
+  </header>
+
+  <main id="workspace">
+
+    <aside id="node-panel" class="panel">
+      <div class="panel-head">
+        <h2>SCENES</h2>
+        <span id="node-count" class="count">0</span>
+      </div>
+      <div id="node-list" class="node-list"></div>
+      <div class="node-add">
+        <select id="new-node-type" title="新节点类型">
+          <option value="dialogue">对话</option>
+          <option value="cutscene">过场</option>
+          <option value="title">标题卡</option>
+          <option value="success">SUCCESS</option>
+          <option value="badEnd">BAD END</option>
+          <option value="end">结束</option>
+        </select>
+        <button id="btn-add-node" class="btn small" type="button">+ 添加</button>
+      </div>
+      <div class="panel-foot">
+        <button id="btn-save" class="btn small ghost" type="button">保存</button>
+        <span id="save-status" class="save-status">已载入</span>
+      </div>
+    </aside>
+
+    <section id="stage-panel">
+      <div class="stage-head">
+        <div class="stage-mode">
+          <span id="stage-mode-label" class="mode-label">PREVIEW</span>
+          <span id="stage-node-label" class="stage-node-label"></span>
+        </div>
+        <div class="stage-actions">
+          <button id="btn-play-here" class="btn small" type="button">从当前播放</button>
+          <button id="btn-play-start" class="btn small primary" type="button">从头播放</button>
+          <button id="btn-stop" class="btn small ghost" type="button" disabled>停止</button>
+          <button id="btn-focus" class="btn small ghost" type="button" title="隐藏两侧面板，放大预览">专注</button>
+          <label class="mute"><input id="mute-checkbox" type="checkbox"> 静音</label>
+        </div>
+      </div>
+
+      <div class="stage-shell">
+        <div id="stage" class="stage">
+          <div id="stage-view" class="stage-view"></div>
+          <div id="stage-badge" class="stage-badge">PREVIEW</div>
+          <div id="game-audio-hud" class="game-audio-hud">
+            <button id="btn-game-music" class="game-audio-btn" type="button" aria-pressed="false">
+              <span class="ga-label">音乐</span><span class="ga-state">关</span>
+            </button>
+            <button id="btn-game-sfx" class="game-audio-btn" type="button" aria-pressed="false">
+              <span class="ga-label">音效</span><span class="ga-state">关</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="stage-foot">
+        <span id="stage-hint">选择左侧节点编辑。点击舞台或按空格推进试玩。</span>
+        <span class="stage-foot-right">16:9 · 本地预览</span>
+      </div>
+    </section>
+
+    <aside id="inspector" class="panel">
+      <div class="panel-head">
+        <h2>INSPECTOR</h2>
+        <span id="inspector-type" class="count"></span>
+      </div>
+      <div id="inspector-body" class="inspector-body"></div>
+    </aside>
+
+  </main>
+</div>
+
+<div id="modal-root"></div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script src="app.js"></script>
+</body>
+</html>

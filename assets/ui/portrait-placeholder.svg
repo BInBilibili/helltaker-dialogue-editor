@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="900" viewBox="0 0 600 900">
+  <defs>
+    <linearGradient id="cloak" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2a1422"/>
+      <stop offset="0.55" stop-color="#120912"/>
+      <stop offset="1" stop-color="#070309"/>
+    </linearGradient>
+    <linearGradient id="rim" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ff3155" stop-opacity=".95"/>
+      <stop offset="1" stop-color="#7d1026" stop-opacity=".15"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="24%" r="60%">
+      <stop offset="0" stop-color="#b3122f" stop-opacity=".22"/>
+      <stop offset="1" stop-color="#b3122f" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <ellipse cx="300" cy="230" rx="240" ry="280" fill="url(#glow)"/>
+
+  <path d="M236 138 C212 96 206 62 224 40 C238 68 252 92 264 116 Z" fill="#160b12" stroke="url(#rim)" stroke-width="4"/>
+  <path d="M364 138 C388 96 394 62 376 40 C362 68 348 92 336 116 Z" fill="#160b12" stroke="url(#rim)" stroke-width="4"/>
+
+  <path d="M300 112 C352 112 386 154 386 214 C386 274 352 318 300 318 C248 318 214 274 214 214 C214 154 248 112 300 112 Z" fill="#120912" stroke="url(#rim)" stroke-width="5"/>
+
+  <path d="M266 300 L266 352 C266 370 280 382 300 382 C320 382 334 370 334 352 L334 300 Z" fill="#0e070e" stroke="url(#rim)" stroke-width="4"/>
+
+  <path d="M300 360 C378 360 446 426 474 536 C494 616 500 724 502 900 L98 900 C100 724 106 616 126 536 C154 426 222 360 300 360 Z" fill="url(#cloak)" stroke="url(#rim)" stroke-width="5"/>
+
+  <path d="M246 372 C262 402 278 416 300 416 C322 416 338 402 354 372" fill="none" stroke="#ff3155" stroke-opacity=".55" stroke-width="3"/>
+
+  <path d="M300 470 L332 536 L300 602 L268 536 Z" fill="none" stroke="#ff3155" stroke-opacity=".45" stroke-width="3"/>
+  <circle cx="300" cy="536" r="9" fill="#ff3155" fill-opacity=".55"/>
+
+  <path d="M130 540 C104 606 92 704 94 900 L178 900 C176 760 186 654 210 570 Z" fill="url(#cloak)" stroke="url(#rim)" stroke-width="4"/>
+  <path d="M470 540 C496 606 508 704 506 900 L422 900 C424 760 414 654 390 570 Z" fill="url(#cloak)" stroke="url(#rim)" stroke-width="4"/>
+
+  <path d="M258 222 C270 214 282 214 294 222" fill="none" stroke="#ff3155" stroke-opacity=".65" stroke-width="4" stroke-linecap="round"/>
+  <path d="M306 222 C318 214 330 214 342 222" fill="none" stroke="#ff3155" stroke-opacity=".65" stroke-width="4" stroke-linecap="round"/>
+</svg>

@@ -22,18 +22,155 @@
   },
   "samples": {
     "folder": "portraits",
-    "note": "AI-drawn fan art supplied by the editor author for the demo project; not game assets. WebP, max side 1100px, transparent background.",
+    "count": 18,
+    "note": "AI-drawn fan art supplied by the editor author for the demo project; not game assets. WebP, max side 1100px, transparent background. 16 portraits + 2 scenes.",
     "portraits": [
-      { "file": "murasame-1.webp", "name": "丛雨 · 叉腰", "size": [972, 1100] },
-      { "file": "murasame-2.webp", "name": "丛雨 · 抱臂", "size": [979, 1100] },
-      { "file": "bride-1.webp", "name": "梦游神玩 · 墨镜", "size": [703, 1100] },
-      { "file": "bride-2.webp", "name": "梦游神玩 · 托腮", "size": [770, 1100] },
-      { "file": "maid-1.webp", "name": "女仆 · 墨镜", "size": [733, 1100] },
-      { "file": "maid-2.webp", "name": "女仆 · 手持墨镜", "size": [733, 1100] }
+      {
+        "file": "murasame-1.webp",
+        "name": "丛雨 · 叉腰",
+        "size": [
+          972,
+          1100
+        ]
+      },
+      {
+        "file": "murasame-2.webp",
+        "name": "丛雨 · 抱臂",
+        "size": [
+          979,
+          1100
+        ]
+      },
+      {
+        "file": "bride-1.webp",
+        "name": "梦游神玩 · 墨镜",
+        "size": [
+          703,
+          1100
+        ]
+      },
+      {
+        "file": "bride-2.webp",
+        "name": "梦游神玩 · 托腮",
+        "size": [
+          770,
+          1100
+        ]
+      },
+      {
+        "file": "maid-1.webp",
+        "name": "我是一个按钮 · 墨镜",
+        "size": [
+          733,
+          1100
+        ]
+      },
+      {
+        "file": "maid-2.webp",
+        "name": "我是一个按钮 · 摘镜",
+        "size": [
+          733,
+          1100
+        ]
+      },
+      {
+        "file": "bigfish-1.webp",
+        "name": "大肥鱼群友 · 端盘",
+        "size": [
+          733,
+          1100
+        ]
+      },
+      {
+        "file": "bigfish-2.webp",
+        "name": "大肥鱼群友 · 叼勺",
+        "size": [
+          733,
+          1100
+        ]
+      },
+      {
+        "file": "aida-1.webp",
+        "name": "姓艾大王 · 拿试管",
+        "size": [
+          788,
+          1100
+        ]
+      },
+      {
+        "file": "aida-2.webp",
+        "name": "姓艾大王 · 凑近",
+        "size": [
+          788,
+          1100
+        ]
+      },
+      {
+        "file": "xiaoyu-1.webp",
+        "name": "小玉 · 比心",
+        "size": [
+          733,
+          1100
+        ]
+      },
+      {
+        "file": "xiaoyu-2.webp",
+        "name": "小玉 · 咬手指",
+        "size": [
+          733,
+          1100
+        ]
+      },
+      {
+        "file": "nico-1.webp",
+        "name": "尼古嫣嫣 · 站姿",
+        "size": [
+          1024,
+          1024
+        ]
+      },
+      {
+        "file": "nico-2.webp",
+        "name": "尼古嫣嫣 · 侧身",
+        "size": [
+          1024,
+          1024
+        ]
+      },
+      {
+        "file": "xuan-1.webp",
+        "name": "轩轩 · 抱文件夹",
+        "size": [
+          765,
+          1100
+        ]
+      },
+      {
+        "file": "xuan-2.webp",
+        "name": "轩轩 · 推眼镜",
+        "size": [
+          765,
+          1100
+        ]
+      }
     ],
     "scenes": [
-      { "file": "trio-1.webp", "name": "三小只 · 大笑", "size": [1100, 733] },
-      { "file": "trio-2.webp", "name": "三小只 · 比耶", "size": [1100, 733] }
+      {
+        "file": "trio-1.webp",
+        "name": "三小只 · 比耶",
+        "size": [
+          1100,
+          733
+        ]
+      },
+      {
+        "file": "trio-2.webp",
+        "name": "三小只 · 大笑",
+        "size": [
+          1100,
+          733
+        ]
+      }
     ]
   },
   "frames": {

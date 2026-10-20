@@ -114,13 +114,23 @@
     { src: "assets/portraits/murasame-2.webp", name: "丛雨 · 抱臂", kind: "立绘" },
     { src: "assets/portraits/bride-1.webp", name: "梦游神玩 · 墨镜", kind: "立绘" },
     { src: "assets/portraits/bride-2.webp", name: "梦游神玩 · 托腮", kind: "立绘" },
-    { src: "assets/portraits/maid-1.webp", name: "女仆 · 墨镜", kind: "立绘" },
-    { src: "assets/portraits/maid-2.webp", name: "女仆 · 手持墨镜", kind: "立绘" },
+    { src: "assets/portraits/maid-1.webp", name: "我是一个按钮 · 墨镜", kind: "立绘" },
+    { src: "assets/portraits/maid-2.webp", name: "我是一个按钮 · 摘镜", kind: "立绘" },
+    { src: "assets/portraits/bigfish-1.webp", name: "大肥鱼群友 · 端盘", kind: "立绘" },
+    { src: "assets/portraits/bigfish-2.webp", name: "大肥鱼群友 · 叼勺", kind: "立绘" },
+    { src: "assets/portraits/aida-1.webp", name: "姓艾大王 · 拿试管", kind: "立绘" },
+    { src: "assets/portraits/aida-2.webp", name: "姓艾大王 · 凑近", kind: "立绘" },
+    { src: "assets/portraits/xiaoyu-1.webp", name: "小玉 · 比心", kind: "立绘" },
+    { src: "assets/portraits/xiaoyu-2.webp", name: "小玉 · 咬手指", kind: "立绘" },
+    { src: "assets/portraits/nico-1.webp", name: "尼古嫣嫣 · 站姿", kind: "立绘" },
+    { src: "assets/portraits/nico-2.webp", name: "尼古嫣嫣 · 侧身", kind: "立绘" },
+    { src: "assets/portraits/xuan-1.webp", name: "轩轩 · 抱文件夹", kind: "立绘" },
+    { src: "assets/portraits/xuan-2.webp", name: "轩轩 · 推眼镜", kind: "立绘" },
   ];
 
   const SAMPLE_SCENES = [
-    { src: "assets/portraits/trio-1.webp", name: "三小只 · 大笑", kind: "剧情图" },
-    { src: "assets/portraits/trio-2.webp", name: "三小只 · 比耶", kind: "剧情图" },
+    { src: "assets/portraits/trio-1.webp", name: "三小只 · 比耶", kind: "剧情图" },
+    { src: "assets/portraits/trio-2.webp", name: "三小只 · 大笑", kind: "剧情图" },
   ];
 
   const BUILTIN_CUTSCENES = [

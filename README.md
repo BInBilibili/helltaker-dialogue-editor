@@ -5,6 +5,9 @@
 
 > 术语区分：**转场动画** = 原版石门 / HELLTAKER 标志的开合动画；**剧情过场** = 带插图 + 旁白的 cutscene 节点。
 
+> ⚠️ **仅供学习交流，非商业用途。** 内置游戏素材版权归 vanripper / Helltaker 原作所有；
+> 如版权方不希望这些素材出现在这里，请开 Issue 说明文件，我会立即删除。详见 [NOTICE.md](NOTICE.md)。
+
 ![编辑器预览](preview.png)
 
 ---

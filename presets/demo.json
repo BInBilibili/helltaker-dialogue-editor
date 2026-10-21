@@ -1,0 +1,67 @@
+{
+  "version": 2,
+  "title": "预设示例 · 短对话",
+  "settings": {
+    "textSpeed": 20
+  },
+  "assets": [],
+  "nodes": [
+    {
+      "id": "p_title",
+      "type": "title",
+      "name": "标题",
+      "background": "assets/ui/chapter-bg-01.png",
+      "showLogo": true,
+      "title": "HELLTAKER",
+      "subtitle": "PRESET DEMO",
+      "next": "p_talk"
+    },
+    {
+      "id": "p_talk",
+      "type": "dialogue",
+      "name": "预设对话",
+      "speaker": "预设",
+      "text": "这是一个通过 URL 参数载入的预设对话。\n把导出的 JSON 放进 presets/ 文件夹，就能用 ?play=1&preset=文件名 分享。",
+      "background": "assets/ui/dialogue-bg-hell.png",
+      "portrait": "assets/portraits/murasame-1.webp",
+      "portraitPos": "center",
+      "portraitScale": 100,
+      "checkpoint": true,
+      "choices": [],
+      "next": "p_choice"
+    },
+    {
+      "id": "p_choice",
+      "type": "dialogue",
+      "name": "选项",
+      "speaker": "预设",
+      "text": "想继续吗？",
+      "background": "assets/ui/dialogue-bg-abyss.png",
+      "portrait": "assets/portraits/murasame-2.webp",
+      "portraitPos": "right",
+      "portraitScale": 100,
+      "checkpoint": true,
+      "choices": [
+        {
+          "id": "p_c_yes",
+          "text": "继续",
+          "next": "p_end"
+        },
+        {
+          "id": "p_c_no",
+          "text": "结束",
+          "next": "p_end"
+        }
+      ],
+      "next": ""
+    },
+    {
+      "id": "p_end",
+      "type": "end",
+      "name": "结束",
+      "title": "DEMO COMPLETE",
+      "text": "预设流程结束。",
+      "buttonLabel": "重新开始"
+    }
+  ]
+}

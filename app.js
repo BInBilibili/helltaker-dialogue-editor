@@ -45,6 +45,20 @@
   const ASSET_DB_VERSION = 1;
   const ASSET_STORE = "assets";
 
+  // URL 参数：
+  //   ?play=1              纯游玩：隐藏所有编辑 UI，自动从头播放
+  //   ?preset=<名称|路径>   载入预设对话：presets/<名称>.json，或完整 URL
+  //   ?node=<节点 id>       指定起始节点（配合 play / preset 使用）
+  const QUERY = new URLSearchParams(location.search);
+  const PLAY_PARAM = QUERY.get("play");
+  const PLAY_ONLY = PLAY_PARAM !== null && !["0", "false", "off"].includes(PLAY_PARAM.toLowerCase());
+  const PRESET_PARAM = (QUERY.get("preset") || "").trim();
+
+  // 预设项目只读：不写 localStorage / IndexedDB，避免覆盖访客自己的项目。
+  let storageLocked = false;
+
+  if (PLAY_ONLY && document.body) document.body.classList.add("play-only");
+
   /* ---------------------------------------------------------
      Built-in assets
      --------------------------------------------------------- */
@@ -451,9 +465,33 @@
     }
   }
 
+  // ?preset=demo → presets/demo.json；也可以直接写路径或完整 URL。
+  function presetUrl(value) {
+    if (/^(?:https?:)?\/\//i.test(value)) return value;
+    if (value.startsWith("/") || value.startsWith("./") || value.startsWith("../")) return value;
+    if (value.toLowerCase().endsWith(".json")) return value;
+    return "presets/" + value + ".json";
+  }
+
+  async function loadPresetProject() {
+    const url = presetUrl(PRESET_PARAM);
+    const response = await fetch(url, { cache: "no-store" });
+    if (!response.ok) throw new Error(`HTTP ${response.status}（${url}）`);
+    const raw = await response.json();
+    if (!raw || !Array.isArray(raw.nodes) || raw.nodes.length === 0) {
+      throw new Error("JSON 里没有节点（" + url + "）");
+    }
+    return normalizeProject(raw);
+  }
+
   function saveNow(showToast = false) {
     clearTimeout(saveTimer);
     saveTimer = null;
+    if (storageLocked) {
+      setSaveStatus("预设项目 · 不自动保存", false);
+      if (showToast) toast("预设项目不会写入本地存储，请用「导出 JSON」保存", true);
+      return;
+    }
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(project));
       setSaveStatus("已保存 " + new Date().toLocaleTimeString("zh-CN", { hour12: false }));
@@ -466,6 +504,7 @@
   }
 
   function scheduleSave() {
+    if (storageLocked) return;
     clearTimeout(saveTimer);
     saveTimer = setTimeout(() => saveNow(false), 380);
   }
@@ -674,19 +713,49 @@
     els.muteCheckbox.checked = muted;
     updateGameAudioUI();
 
-    await initAssetStorage();
+    let preset = null;
+    let presetError = null;
+    if (PRESET_PARAM) {
+      try {
+        preset = await loadPresetProject();
+      } catch (error) {
+        presetError = error;
+        console.warn("Preset load failed", error);
+      }
+    }
 
-    const params = new URLSearchParams(location.search);
-    const nodeParam = params.get("node");
+    if (preset) {
+      project = preset;
+      storageLocked = true;
+      selectedId = project.nodes[0]?.id ?? null;
+      clearAssetCache();
+    } else {
+      await initAssetStorage();
+    }
+
+    const nodeParam = QUERY.get("node");
     if (nodeParam && getNode(nodeParam)) selectedId = nodeParam;
 
     updateDocumentTitle();
     renderAll();
-    setSaveStatus("已载入");
-    if (!localStorage.getItem(STORAGE_KEY)) saveNow(false);
 
-    if (params.get("play") === "1" && selectedId) {
-      setTimeout(() => playFrom(selectedId), 60);
+    if (preset) {
+      setSaveStatus("预设项目 · 不自动保存");
+    } else if (presetError) {
+      setSaveStatus("预设载入失败，已回退本地项目", true);
+      toast("预设载入失败：" + (presetError.message || "未知错误"), true);
+    } else {
+      setSaveStatus("已载入");
+      if (!localStorage.getItem(STORAGE_KEY)) saveNow(false);
+    }
+
+    if (PLAY_ONLY) {
+      if (presetError && !preset) {
+        showPresetError(presetError);
+      } else {
+        const startId = selectedId || project.nodes[0]?.id;
+        if (startId) requestAnimationFrame(() => playFrom(startId));
+      }
     }
   }
 
@@ -1197,7 +1266,7 @@
           <p class="end-text">${esc(node.text || "")}</p>
           <div class="end-actions">
             <button class="hs-btn" type="button" data-action="restart">${esc(node.buttonLabel || "重新开始")}</button>
-            <button class="hs-btn ghost" type="button" data-action="stop">返回编辑</button>
+            ${PLAY_ONLY ? "" : `<button class="hs-btn ghost" type="button" data-action="stop">返回编辑</button>`}
           </div>
         </div>
       </div>`;
@@ -1513,12 +1582,33 @@
           <p class="end-text">流程停在这里：当前节点没有设置下一个节点。</p>
           <div class="end-actions">
             <button class="hs-btn" type="button" data-action="restart">从头开始</button>
-            <button class="hs-btn ghost" type="button" data-action="stop">返回编辑</button>
+            ${PLAY_ONLY ? "" : `<button class="hs-btn ghost" type="button" data-action="stop">返回编辑</button>`}
           </div>
         </div>
       </div>`;
     els.stageNodeLabel.textContent = "流程结束";
     els.stageBadge.textContent = "PLAYING";
+  }
+
+  function showPresetError(error) {
+    const url = presetUrl(PRESET_PARAM);
+    els.stage.classList.add("error");
+    els.stageView.innerHTML = `
+      <div class="scene scene-end">
+        <div class="end-bg"></div>
+        <div class="end-content">
+          <div class="end-kicker">PRESET ERROR</div>
+          <h2 class="end-title">载入失败</h2>
+          <div class="end-rule"></div>
+          <p class="end-text">打不开预设：${esc(url)}<br>${esc(error.message || "未知错误")}<br><br>请检查文件是否已提交到仓库，或链接是否允许跨域读取。</p>
+          <div class="end-actions">
+            <button class="hs-btn" type="button" data-action="reload">重试</button>
+          </div>
+        </div>
+      </div>`;
+    els.stageModeLabel.textContent = "ERROR";
+    els.stageBadge.textContent = "ERROR";
+    els.stageHint.textContent = "预设载入失败。";
   }
 
   /* ---------------------------------------------------------
@@ -2210,6 +2300,7 @@
       const action = actionEl.dataset.action;
       if (action === "restart") restartFlow();
       else if (action === "retry") retry();
+      else if (action === "reload") location.reload();
       else if (action === "continue") {
         const node = getNode(runtime.nodeId);
         if (node?.next) goTo(node.next);
@@ -2281,6 +2372,7 @@
         return;
       }
       if (playing) {
+        if (PLAY_ONLY) return;
         stopPlayback();
         return;
       }
@@ -2311,6 +2403,7 @@
       console.warn("clear assets failed", error);
     }
     clearAssetCache();
+    storageLocked = false;
     project = defaultProject();
     selectedId = project.nodes[0].id;
     playing = false;
@@ -2350,6 +2443,7 @@
         project = imported;
         selectedId = project.nodes[0].id;
         playing = false;
+        storageLocked = false;
         saveNow(false);
         renderAll();
         toast(`项目已导入（${project.assets.length} 张素材）`);
@@ -2551,6 +2645,13 @@
               <li><code>空格 / Enter</code>：试玩时推进文本</li>
               <li><code>Esc</code>：停止试玩 / 关闭弹窗</li>
               <li><code>Ctrl + S</code>：立即保存</li>
+            </ul>
+            <h4>在线分享链接 / URL 参数</h4>
+            <ul>
+              <li><code>?play=1</code>：纯游玩模式，隐藏全部编辑界面，并自动从头播放。</li>
+              <li><code>?preset=demo</code>：载入 <code>presets/demo.json</code>；也可以写 <code>presets/demo.json</code> 或完整 URL。</li>
+              <li><code>?node=节点id</code>：指定从哪个节点开始播放。</li>
+              <li>组合示例：<code>?play=1&amp;preset=my-story</code>。预设项目不会写入访客的浏览器存储，适合直接发链接给别人玩。</li>
             </ul>
             <h4>版权</h4>
             <p>这是本地同人工具。内置的游戏 UI / 剧情图 / 转场动画素材版权归 vanripper 与 Helltaker 原作所有，请勿随公开发布分发；对外发布请替换成你自己的素材。</p>

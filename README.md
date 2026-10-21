@@ -15,6 +15,25 @@
 
 ---
 
+## 0. 在线分享链接（URL 参数）
+
+在线页面支持用 URL 参数切换成「纯游玩」或载入预设对话：
+
+| 参数 | 作用 |
+| --- | --- |
+| `?play=1` | 纯游玩模式：隐藏所有编辑界面，自动从头播放 |
+| `?preset=demo` | 载入 `presets/demo.json`；也可以写 `presets/demo.json` 或完整 URL |
+| `?node=p_talk` | 从指定节点开始播放 |
+
+组合示例：
+
+- 纯游玩自己的预设：`?play=1&preset=my-story`
+- 从中间节点开始：`?play=1&preset=my-story&node=p_talk`
+
+预设项目是只读的，不会写入访客的浏览器存储。把自己的项目「导出 JSON」后放进 `presets/` 就能分享，详见 [presets/README.md](presets/README.md)。
+
+---
+
 ## 1. 快速开始
 
 双击 `start.bat`。它会启动本地服务器并打开浏览器。

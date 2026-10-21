@@ -22,8 +22,8 @@
   },
   "samples": {
     "folder": "portraits",
-    "count": 18,
-    "note": "AI-drawn fan art supplied by the editor author for the demo project; not game assets. WebP, max side 1100px, transparent background. 16 portraits + 2 scenes.",
+    "count": 22,
+    "note": "AI-drawn fan art supplied by the editor author for the demo project; not game assets. WebP, max side 1100px, transparent background. All 22 are portraits, including 3-person / dragon group shots.",
     "portraits": [
       {
         "file": "murasame-1.webp",
@@ -152,9 +152,7 @@
           765,
           1100
         ]
-      }
-    ],
-    "scenes": [
+      },
       {
         "file": "trio-1.webp",
         "name": "三小只 · 比耶",
@@ -170,8 +168,41 @@
           1100,
           733
         ]
+      },
+      {
+        "file": "feicui-1.webp",
+        "name": "翡翠树 · 张手",
+        "size": [
+          1083,
+          1100
+        ]
+      },
+      {
+        "file": "feicui-2.webp",
+        "name": "翡翠树 · 端盘",
+        "size": [
+          1100,
+          1100
+        ]
+      },
+      {
+        "file": "dragon-1.webp",
+        "name": "白龙 · 张牙",
+        "size": [
+          1100,
+          767
+        ]
+      },
+      {
+        "file": "dragon-2.webp",
+        "name": "白龙 · 蜷手",
+        "size": [
+          1100,
+          1100
+        ]
       }
-    ]
+    ],
+    "scenes": []
   },
   "frames": {
     "booper": { "folder": "booper", "count": 17, "source": "booper0001..booper0017", "tint": "#ff2f4a", "usage": "idle click indicator", "still": "booper.png" },

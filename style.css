@@ -869,15 +869,15 @@ input[type="range"] { width: 100%; accent-color: var(--red); }
   position: absolute;
   bottom: 0;
   z-index: 2;
-  height: calc(86cqh * var(--portrait-scale));
-  max-width: 78cqw;
+  height: calc(100cqh * var(--portrait-scale));
+  max-width: 82cqw;
   pointer-events: none;
   filter: drop-shadow(0 10px 28px rgba(0, 0, 0, 0.7));
 }
 .scene-dialogue .dialogue-portrait img {
   height: 100%;
   width: auto;
-  max-width: 78cqw;
+  max-width: 82cqw;
   object-fit: contain;
   object-position: bottom center;
 }
@@ -992,15 +992,15 @@ input[type="range"] { width: 100%; accent-color: var(--red); }
   position: absolute;
   bottom: 0;
   z-index: 2;
-  height: calc(86cqh * var(--portrait-scale));
-  max-width: 78cqw;
+  height: calc(100cqh * var(--portrait-scale));
+  max-width: 82cqw;
   pointer-events: none;
   filter: drop-shadow(0 10px 28px rgba(0, 0, 0, 0.7));
 }
 .scene-success .success-portrait img {
   height: 100%;
   width: auto;
-  max-width: 78cqw;
+  max-width: 82cqw;
   object-fit: contain;
   object-position: bottom center;
 }

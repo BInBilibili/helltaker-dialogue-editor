@@ -1,11 +1,11 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>HELLTAKER 路 Dialogue Editor</title>
+<title>HELLTAKER · Dialogue Editor</title>
 <link rel="icon" href="assets/ui/helltaker-logo.png">
-<link rel="stylesheet" href="style.css?v=5">
+<link rel="stylesheet" href="style.css?v=6">
 </head>
 <body>
 <div id="app">
@@ -15,7 +15,7 @@
       <img class="brand-logo" src="assets/ui/helltaker-logo.png" alt="HELLTAKER">
       <div class="brand-copy">
         <h1>DIALOGUE EDITOR</h1>
-        <span>鍚屼汉瀵硅瘽缂栬緫鍣?路 鏈湴宸ュ叿</span>
+        <span>同人对话编辑器 · 本地工具</span>
       </div>
     </div>
 
@@ -25,10 +25,10 @@
     </label>
 
     <div class="top-actions">
-      <button id="btn-new" class="btn ghost" type="button">鏂板缓</button>
-      <button id="btn-import" class="btn ghost" type="button">瀵煎叆</button>
-      <button id="btn-export" class="btn primary" type="button">瀵煎嚭 JSON</button>
-      <button id="btn-help" class="btn ghost square" type="button" title="浣跨敤璇存槑">?</button>
+      <button id="btn-new" class="btn ghost" type="button">新建</button>
+      <button id="btn-import" class="btn ghost" type="button">导入</button>
+      <button id="btn-export" class="btn primary" type="button">导出 JSON</button>
+      <button id="btn-help" class="btn ghost square" type="button" title="使用说明">?</button>
       <input id="import-file" type="file" accept=".json,application/json" hidden>
     </div>
   </header>
@@ -42,19 +42,19 @@
       </div>
       <div id="node-list" class="node-list"></div>
       <div class="node-add">
-        <select id="new-node-type" title="鏂拌妭鐐圭被鍨?>
-          <option value="dialogue">瀵硅瘽</option>
-          <option value="cutscene">杩囧満</option>
-          <option value="title">鏍囬鍗?/option>
+        <select id="new-node-type" title="新节点类型">
+          <option value="dialogue">对话</option>
+          <option value="cutscene">过场</option>
+          <option value="title">标题卡</option>
           <option value="success">SUCCESS</option>
           <option value="badEnd">BAD END</option>
-          <option value="end">缁撴潫</option>
+          <option value="end">结束</option>
         </select>
-        <button id="btn-add-node" class="btn small" type="button">+ 娣诲姞</button>
+        <button id="btn-add-node" class="btn small" type="button">+ 添加</button>
       </div>
       <div class="panel-foot">
-        <button id="btn-save" class="btn small ghost" type="button">淇濆瓨</button>
-        <span id="save-status" class="save-status">宸茶浇鍏?/span>
+        <button id="btn-save" class="btn small ghost" type="button">保存</button>
+        <span id="save-status" class="save-status">已载入</span>
       </div>
     </aside>
 
@@ -65,11 +65,11 @@
           <span id="stage-node-label" class="stage-node-label"></span>
         </div>
         <div class="stage-actions">
-          <button id="btn-play-here" class="btn small" type="button">浠庡綋鍓嶆挱鏀?/button>
-          <button id="btn-play-start" class="btn small primary" type="button">浠庡ご鎾斁</button>
-          <button id="btn-stop" class="btn small ghost" type="button" disabled>鍋滄</button>
-          <button id="btn-focus" class="btn small ghost" type="button" title="闅愯棌涓や晶闈㈡澘锛屾斁澶ч瑙?>涓撴敞</button>
-          <label class="mute"><input id="mute-checkbox" type="checkbox"> 闈欓煶</label>
+          <button id="btn-play-here" class="btn small" type="button">从当前播放</button>
+          <button id="btn-play-start" class="btn small primary" type="button">从头播放</button>
+          <button id="btn-stop" class="btn small ghost" type="button" disabled>停止</button>
+          <button id="btn-focus" class="btn small ghost" type="button" title="隐藏两侧面板，放大预览">专注</button>
+          <label class="mute"><input id="mute-checkbox" type="checkbox"> 静音</label>
         </div>
       </div>
 
@@ -79,18 +79,18 @@
           <div id="stage-badge" class="stage-badge">PREVIEW</div>
           <div id="game-audio-hud" class="game-audio-hud">
             <button id="btn-game-music" class="game-audio-btn" type="button" aria-pressed="false">
-              <span class="ga-label">闊充箰</span><span class="ga-state">鍏?/span>
+              <span class="ga-label">音乐</span><span class="ga-state">关</span>
             </button>
             <button id="btn-game-sfx" class="game-audio-btn" type="button" aria-pressed="false">
-              <span class="ga-label">闊虫晥</span><span class="ga-state">鍏?/span>
+              <span class="ga-label">音效</span><span class="ga-state">关</span>
             </button>
           </div>
         </div>
       </div>
 
       <div class="stage-foot">
-        <span id="stage-hint">閫夋嫨宸︿晶鑺傜偣缂栬緫銆傜偣鍑昏垶鍙版垨鎸夌┖鏍兼帹杩涜瘯鐜┿€?/span>
-        <span class="stage-foot-right">16:9 路 鏈湴棰勮</span>
+        <span id="stage-hint">选择左侧节点编辑。点击舞台或按空格推进试玩。</span>
+        <span class="stage-foot-right">16:9 · 本地预览</span>
       </div>
     </section>
 
@@ -108,6 +108,6 @@
 <div id="modal-root"></div>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-<script src="app.js?v=5"></script>
+<script src="app.js?v=6"></script>
 </body>
 </html>

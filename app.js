@@ -126,11 +126,12 @@
     { src: "assets/portraits/nico-2.webp", name: "尼古嫣嫣 · 侧身", kind: "立绘" },
     { src: "assets/portraits/xuan-1.webp", name: "轩轩 · 抱文件夹", kind: "立绘" },
     { src: "assets/portraits/xuan-2.webp", name: "轩轩 · 推眼镜", kind: "立绘" },
-  ];
-
-  const SAMPLE_SCENES = [
-    { src: "assets/portraits/trio-1.webp", name: "三小只 · 比耶", kind: "剧情图" },
-    { src: "assets/portraits/trio-2.webp", name: "三小只 · 大笑", kind: "剧情图" },
+    { src: "assets/portraits/trio-1.webp", name: "三小只 · 比耶", kind: "立绘" },
+    { src: "assets/portraits/trio-2.webp", name: "三小只 · 大笑", kind: "立绘" },
+    { src: "assets/portraits/feicui-1.webp", name: "翡翠树 · 张手", kind: "立绘" },
+    { src: "assets/portraits/feicui-2.webp", name: "翡翠树 · 端盘", kind: "立绘" },
+    { src: "assets/portraits/dragon-1.webp", name: "白龙 · 张牙", kind: "立绘" },
+    { src: "assets/portraits/dragon-2.webp", name: "白龙 · 蜷手", kind: "立绘" },
   ];
 
   const BUILTIN_CUTSCENES = [
@@ -143,7 +144,6 @@
     { src: ASSET.cutscene[6], name: "剧情 06 · 酒吧", kind: "剧情图" },
     { src: ASSET.cutscene[7], name: "剧情 07 · 骷髅", kind: "剧情图" },
     { src: ASSET.cutscene[8], name: "剧情 08 · 聚会", kind: "剧情图" },
-    ...SAMPLE_SCENES,
   ];
 
   const BUILTIN_PORTRAITS = [
@@ -253,12 +253,16 @@
         },
         {
           id: "n_show",
-          type: "cutscene",
+          type: "dialogue",
           name: "示例 · 三小只",
-          image: SAMPLE_SCENES[0].src,
-          imageFit: "contain",
-          text: "这是内置示例剧情图：不用上传，右侧「剧情图」里就能换。",
-          showIndicator: true,
+          speaker: "三小只",
+          text: "三小只同样是「立绘」，在右侧「立绘」里选就有。",
+          background: ASSET.bgHell,
+          portrait: "assets/portraits/trio-1.webp",
+          portraitPos: "center",
+          portraitScale: 100,
+          checkpoint: true,
+          choices: [],
           next: "n_show2",
         },
         {

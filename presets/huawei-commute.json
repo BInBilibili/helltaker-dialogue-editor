@@ -1,0 +1,472 @@
+{
+  "version": 2,
+  "title": "今天也正常上班",
+  "settings": {
+    "textSpeed": 18
+  },
+  "assets": [],
+  "nodes": [
+    {
+      "id": "n_wake",
+      "type": "cutscene",
+      "name": "开场 · 醒来",
+      "image": "assets/portraits/wake-up.webp",
+      "imageFit": "cover",
+      "text": "你是华为的员工。\n今天，也要正常去上班。",
+      "showIndicator": true,
+      "next": "d_trio"
+    },
+    {
+      "id": "d_trio",
+      "type": "dialogue",
+      "name": "三小只 · 对话",
+      "speaker": "三小只",
+      "text": "「站住。」「站住。」「站住。」\n电梯口堵着三颗脑袋，共用一条尾巴和一份排班表。\n「口令。说错就把你拖进下一层。」",
+      "background": "assets/ui/dialogue-bg-hell.png",
+      "portrait": "assets/portraits/trio-1.webp",
+      "portraitPos": "center",
+      "portraitScale": 100,
+      "checkpoint": true,
+      "choices": [
+        { "id": "trio_c1", "text": "「今天也要正常上班。」", "next": "s_trio" },
+        { "id": "trio_c2", "text": "「我赶时间，让一让。」", "next": "b_trio" }
+      ],
+      "next": ""
+    },
+    {
+      "id": "b_trio",
+      "type": "badEnd",
+      "name": "三小只 · 坏结局",
+      "text": "三小只把你拖进电梯井，按下了「向下」。\n你的考勤记录从此多了一行：自由落体。",
+      "retryNodeId": ""
+    },
+    {
+      "id": "s_trio",
+      "type": "success",
+      "name": "三小只 · SUCCESS",
+      "variant": "normal",
+      "background": "assets/ui/dialogue-bg-hell.png",
+      "portrait": "assets/portraits/trio-2.webp",
+      "portraitPos": "center",
+      "portraitScale": 100,
+      "speaker": "三小只",
+      "text": "「口令正确。」「正确。」「正确。」\n三小只一人按一层电梯，把你送了上去。\n「迟到的话，我们一起帮你写检讨。」",
+      "next": "d_yujie"
+    },
+    {
+      "id": "d_yujie",
+      "type": "dialogue",
+      "name": "御姐 · 对话",
+      "speaker": "御姐",
+      "text": "「让开。这块石头要上二十三楼。」\n粉色翅膀的女人抱着一块比她还大的石头，\n眼神像在搬自己的嫁妆。「你，搭把手。」",
+      "background": "assets/ui/dialogue-bg-sin.png",
+      "portrait": "assets/portraits/yujie-1.webp",
+      "portraitPos": "center",
+      "portraitScale": 100,
+      "checkpoint": true,
+      "choices": [
+        { "id": "yujie_c1", "text": "「走电梯不行吗？」", "next": "b_yujie" },
+        { "id": "yujie_c2", "text": "「我抬这边，你抬那边。」", "next": "s_yujie" }
+      ],
+      "next": ""
+    },
+    {
+      "id": "b_yujie",
+      "type": "badEnd",
+      "name": "御姐 · 坏结局",
+      "text": "御姐把石头放在你脚边，连人带石头搬上了二十三楼。\n你在楼下等了一整天，等来一张旷工单。",
+      "retryNodeId": ""
+    },
+    {
+      "id": "s_yujie",
+      "type": "success",
+      "name": "御姐 · SUCCESS",
+      "variant": "normal",
+      "background": "assets/ui/dialogue-bg-sin.png",
+      "portrait": "assets/portraits/yujie-2.webp",
+      "portraitPos": "center",
+      "portraitScale": 100,
+      "speaker": "御姐",
+      "text": "「……还挺会配合。」\n她把石头往你怀里一塞，自己先走进了楼梯间。\n「明天也这个点。别迟到。」",
+      "next": "d_dragon"
+    },
+    {
+      "id": "d_dragon",
+      "type": "dialogue",
+      "name": "白龙 · 对话",
+      "speaker": "白龙",
+      "text": "「凡人，你踩到我的云了。」\n白龙盘在写字楼顶，鳞片比工牌还亮。\n「留下一件宝贝，或者留下一顿午饭。」",
+      "background": "assets/ui/dialogue-bg-throne.png",
+      "portrait": "assets/portraits/dragon-1.webp",
+      "portraitPos": "center",
+      "portraitScale": 100,
+      "checkpoint": true,
+      "choices": [
+        { "id": "dragon_c1", "text": "「云是公家的。」", "next": "b_dragon" },
+        { "id": "dragon_c2", "text": "「工牌押你这儿，午饭我请。」", "next": "s_dragon" }
+      ],
+      "next": ""
+    },
+    {
+      "id": "b_dragon",
+      "type": "badEnd",
+      "name": "白龙 · 坏结局",
+      "text": "白龙把你卷进云里，发配到隔壁市的分公司。\n通勤时间：四小时。你甚至没有座位。",
+      "retryNodeId": ""
+    },
+    {
+      "id": "s_dragon",
+      "type": "success",
+      "name": "白龙 · SUCCESS",
+      "variant": "normal",
+      "background": "assets/ui/dialogue-bg-throne.png",
+      "portrait": "assets/portraits/dragon-2.webp",
+      "portraitPos": "center",
+      "portraitScale": 100,
+      "speaker": "白龙",
+      "text": "「工牌我收下了。」\n白龙把工牌挂在角上，别过脸去。\n「……午饭，要热的。」",
+      "next": "d_murasame"
+    },
+    {
+      "id": "d_murasame",
+      "type": "dialogue",
+      "name": "丛雨 · 对话",
+      "speaker": "丛雨",
+      "text": "「此路是我开。」\n绿发的剑士把长刀横在闸机前。\n「此树是我栽。……下一句，你接。」",
+      "background": "assets/ui/dialogue-bg-home.png",
+      "portrait": "assets/portraits/murasame-1.webp",
+      "portraitPos": "center",
+      "portraitScale": 100,
+      "checkpoint": true,
+      "choices": [
+        { "id": "murasame_c1", "text": "「要想从此过，留下买路财。」", "next": "s_murasame" },
+        { "id": "murasame_c2", "text": "「我要迟到了。」", "next": "b_murasame" }
+      ],
+      "next": ""
+    },
+    {
+      "id": "b_murasame",
+      "type": "badEnd",
+      "name": "丛雨 · 坏结局",
+      "text": "丛雨用刀背把你送进了迟到名单。\n「此路不通。」她补充道，语气毫无波澜。",
+      "retryNodeId": ""
+    },
+    {
+      "id": "s_murasame",
+      "type": "success",
+      "name": "丛雨 · SUCCESS",
+      "variant": "normal",
+      "background": "assets/ui/dialogue-bg-home.png",
+      "portrait": "assets/portraits/murasame-2.webp",
+      "portraitPos": "center",
+      "portraitScale": 100,
+      "speaker": "丛雨",
+      "text": "「答对了。」\n她收起刀，让开半米，又用刀鞘敲了敲你的工牌。\n「下班，我在这儿等你。」",
+      "next": "d_nico"
+    },
+    {
+      "id": "d_nico",
+      "type": "dialogue",
+      "name": "尼古嫣嫣 · 对话",
+      "speaker": "尼古嫣嫣",
+      "text": "「借个火。」\n银发的女人靠在消防通道，指尖夹着一根没点着的烟。\n「星象说，今天会有一个带火的人路过。」",
+      "background": "assets/ui/dialogue-bg-abyss.png",
+      "portrait": "assets/portraits/nico-1.webp",
+      "portraitPos": "center",
+      "portraitScale": 100,
+      "checkpoint": true,
+      "choices": [
+        { "id": "nico_c1", "text": "「抽烟有害健康。」", "next": "b_nico" },
+        { "id": "nico_c2", "text": "掏出打火机，替她点上。", "next": "s_nico" }
+      ],
+      "next": ""
+    },
+    {
+      "id": "b_nico",
+      "type": "badEnd",
+      "name": "尼古嫣嫣 · 坏结局",
+      "text": "尼古嫣嫣把烟按在你的工牌上。\n你被行政部约谈，理由是「携带明火进入办公区」。",
+      "retryNodeId": ""
+    },
+    {
+      "id": "s_nico",
+      "type": "success",
+      "name": "尼古嫣嫣 · SUCCESS",
+      "variant": "normal",
+      "background": "assets/ui/dialogue-bg-abyss.png",
+      "portrait": "assets/portraits/nico-2.webp",
+      "portraitPos": "center",
+      "portraitScale": 100,
+      "speaker": "尼古嫣嫣",
+      "text": "「嗯，是吉兆。」\n她吐出一口星形的烟，眯起眼睛看你。\n「今日运势：宜加班，忌早退。」",
+      "next": "d_xuan"
+    },
+    {
+      "id": "d_xuan",
+      "type": "dialogue",
+      "name": "轩轩 · 对话",
+      "speaker": "轩轩",
+      "text": "「姓名、工号、今日目标。」\n金发的女人推了推眼镜，红文件夹像一块砖。\n「说不出来，就算旷工。」",
+      "background": "assets/ui/dialogue-bg-home.png",
+      "portrait": "assets/portraits/xuan-1.webp",
+      "portraitPos": "center",
+      "portraitScale": 100,
+      "checkpoint": true,
+      "choices": [
+        { "id": "xuan_c1", "text": "「摸鱼，也是工作的一部分。」", "next": "b_xuan" },
+        { "id": "xuan_c2", "text": "「正常上班，准点打卡。」", "next": "s_xuan" }
+      ],
+      "next": ""
+    },
+    {
+      "id": "b_xuan",
+      "type": "badEnd",
+      "name": "轩轩 · 坏结局",
+      "text": "轩轩在你的档案上盖了一个红章：\n「态度不端正。转岗前台，负责接待每一个来投诉的用户。」",
+      "retryNodeId": ""
+    },
+    {
+      "id": "s_xuan",
+      "type": "success",
+      "name": "轩轩 · SUCCESS",
+      "variant": "normal",
+      "background": "assets/ui/dialogue-bg-home.png",
+      "portrait": "assets/portraits/xuan-2.webp",
+      "portraitPos": "center",
+      "portraitScale": 100,
+      "speaker": "轩轩",
+      "text": "「……记录在案。」\n她摘下眼镜，飞快地看了你一眼，又戴回去。\n「准点打卡，有奖励。」",
+      "next": "d_bigfish"
+    },
+    {
+      "id": "d_bigfish",
+      "type": "dialogue",
+      "name": "大肥鱼群友 · 对话",
+      "speaker": "大肥鱼群友",
+      "text": "「今天食堂只有白饭。」\n蓝发的鲸鱼娘端着满满一盘白饭，尾巴轻轻拍着地面。\n「但白饭，是深海的恩赐。你要加什么？」",
+      "background": "assets/ui/dialogue-bg-home.png",
+      "portrait": "assets/portraits/bigfish-1.webp",
+      "portraitPos": "center",
+      "portraitScale": 100,
+      "checkpoint": true,
+      "choices": [
+        { "id": "bigfish_c1", "text": "「加一碗白饭。」", "next": "s_bigfish" },
+        { "id": "bigfish_c2", "text": "「加老干妈。」", "next": "b_bigfish" }
+      ],
+      "next": ""
+    },
+    {
+      "id": "b_bigfish",
+      "type": "badEnd",
+      "name": "大肥鱼群友 · 坏结局",
+      "text": "大肥鱼群友把老干妈倒进了你的键盘。\n你被辣得在会议室里游了一下午，代码一行没写。",
+      "retryNodeId": ""
+    },
+    {
+      "id": "s_bigfish",
+      "type": "success",
+      "name": "大肥鱼群友 · SUCCESS",
+      "variant": "normal",
+      "background": "assets/ui/dialogue-bg-home.png",
+      "portrait": "assets/portraits/bigfish-2.webp",
+      "portraitPos": "center",
+      "portraitScale": 100,
+      "speaker": "大肥鱼群友",
+      "text": "「懂行。」\n她给你盛了第二碗、第三碗、第四碗。\n「吃饱了，才有力气上班。」",
+      "next": "d_feicui"
+    },
+    {
+      "id": "d_feicui",
+      "type": "dialogue",
+      "name": "翡翠树 · 对话",
+      "speaker": "翡翠树",
+      "text": "「跪下，杂鱼。」\n紫发的女王翘着腿坐在会议桌主位，红手套敲了敲桌面。\n「今天，本王要吃供奉。你带了什么？」",
+      "background": "assets/ui/dialogue-bg-throne.png",
+      "portrait": "assets/portraits/feicui-1.webp",
+      "portraitPos": "center",
+      "portraitScale": 100,
+      "checkpoint": true,
+      "choices": [
+        { "id": "feicui_c1", "text": "「食堂有白饭。」", "next": "b_feicui" },
+        { "id": "feicui_c2", "text": "把刚买的炸鸡全家桶推过去。", "next": "s_feicui" }
+      ],
+      "next": ""
+    },
+    {
+      "id": "b_feicui",
+      "type": "badEnd",
+      "name": "翡翠树 · 坏结局",
+      "text": "翡翠树用红手套把你按进了白板。\n「杂鱼就该有杂鱼的样子。」\n你的周报从此只有三个字：已阅，滚。",
+      "retryNodeId": ""
+    },
+    {
+      "id": "s_feicui",
+      "type": "success",
+      "name": "翡翠树 · SUCCESS",
+      "variant": "normal",
+      "background": "assets/ui/dialogue-bg-throne.png",
+      "portrait": "assets/portraits/feicui-2.webp",
+      "portraitPos": "center",
+      "portraitScale": 100,
+      "speaker": "翡翠树",
+      "text": "「……哼，勉强合格。」\n她拿起一块炸鸡，咬了一口，耳朵尖微微发红。\n「坐下，一起吃。这是命令。」",
+      "next": "d_aida"
+    },
+    {
+      "id": "d_aida",
+      "type": "dialogue",
+      "name": "姓艾大王 · 对话",
+      "speaker": "姓艾大王",
+      "text": "「站住。」\n粉发的少女晃了晃试管里的红色液体，笑得像刚写完论文。\n「我需要一份样本。你的。」",
+      "background": "assets/ui/dialogue-bg-abyss.png",
+      "portrait": "assets/portraits/aida-1.webp",
+      "portraitPos": "center",
+      "portraitScale": 100,
+      "checkpoint": true,
+      "choices": [
+        { "id": "aida_c1", "text": "卷起袖子，伸出手臂。", "next": "s_aida" },
+        { "id": "aida_c2", "text": "「抽血要先预约。」", "next": "b_aida" }
+      ],
+      "next": ""
+    },
+    {
+      "id": "b_aida",
+      "type": "badEnd",
+      "name": "姓艾大王 · 坏结局",
+      "text": "姓艾大王把整管红色液体倒进了你的咖啡。\n「样本活性良好。」\n验血报告显示：加班过多，建议转岗。",
+      "retryNodeId": ""
+    },
+    {
+      "id": "s_aida",
+      "type": "success",
+      "name": "姓艾大王 · SUCCESS",
+      "variant": "normal",
+      "background": "assets/ui/dialogue-bg-abyss.png",
+      "portrait": "assets/portraits/aida-2.webp",
+      "portraitPos": "center",
+      "portraitScale": 100,
+      "speaker": "姓艾大王",
+      "text": "「……就、就抽一点点。」\n针还没扎下去，她自己的脸先红了。\n「样本编号 0001。备注：……好像有点喜欢。」",
+      "next": "d_bride"
+    },
+    {
+      "id": "d_bride",
+      "type": "dialogue",
+      "name": "梦游神玩 · 对话",
+      "speaker": "梦游神玩",
+      "text": "「新郎，你终于来了。」\n蓝发的新娘戴着墨镜，婚纱比会议室的灯还亮。\n「婚礼还有三分钟。你愿意吗？」",
+      "background": "assets/ui/dialogue-bg-throne.png",
+      "portrait": "assets/portraits/bride-1.webp",
+      "portraitPos": "center",
+      "portraitScale": 100,
+      "checkpoint": true,
+      "choices": [
+        { "id": "bride_c1", "text": "「愿意。先把墨镜摘了。」", "next": "s_bride" },
+        { "id": "bride_c2", "text": "「我要去上班。」", "next": "b_bride" }
+      ],
+      "next": ""
+    },
+    {
+      "id": "b_bride",
+      "type": "badEnd",
+      "name": "梦游神玩 · 坏结局",
+      "text": "梦游神玩在婚礼上睡着了。\n醒来时，你已经成了她梦里的第七任新郎，正在给宾客敬酒。",
+      "retryNodeId": ""
+    },
+    {
+      "id": "s_bride",
+      "type": "success",
+      "name": "梦游神玩 · SUCCESS",
+      "variant": "normal",
+      "background": "assets/ui/dialogue-bg-throne.png",
+      "portrait": "assets/portraits/bride-2.webp",
+      "portraitPos": "center",
+      "portraitScale": 100,
+      "speaker": "梦游神玩",
+      "text": "「墨镜是本体，不能摘。」\n她挽住你的胳膊，朝空无一人的礼堂走去。\n「誓词就一句：今天不许加班。」",
+      "next": "d_xiaoyu"
+    },
+    {
+      "id": "d_xiaoyu",
+      "type": "dialogue",
+      "name": "小玉 · 对话",
+      "speaker": "小玉",
+      "text": "「那个……我、我跟你一路了。」\n银发的女孩攥着衣角，头顶冒出一颗又一颗爱心。\n「你每天这个点上班，我都知道。……可以认识一下吗？」",
+      "background": "assets/ui/dialogue-bg-hell.png",
+      "portrait": "assets/portraits/xiaoyu-1.webp",
+      "portraitPos": "center",
+      "portraitScale": 100,
+      "checkpoint": true,
+      "choices": [
+        { "id": "xiaoyu_c1", "text": "「你是不是跟踪我？」", "next": "b_xiaoyu" },
+        { "id": "xiaoyu_c2", "text": "「可以。下班一起喝咖啡。」", "next": "s_xiaoyu" }
+      ],
+      "next": ""
+    },
+    {
+      "id": "b_xiaoyu",
+      "type": "badEnd",
+      "name": "小玉 · 坏结局",
+      "text": "小玉把你的工牌照片放大成等身立牌，摆在她家客厅。\n你每天上班，都有一种被注视着打卡的感觉。",
+      "retryNodeId": ""
+    },
+    {
+      "id": "s_xiaoyu",
+      "type": "success",
+      "name": "小玉 · SUCCESS",
+      "variant": "normal",
+      "background": "assets/ui/dialogue-bg-hell.png",
+      "portrait": "assets/portraits/xiaoyu-2.webp",
+      "portraitPos": "center",
+      "portraitScale": 100,
+      "speaker": "小玉",
+      "text": "「真的吗真的吗真的吗！」\n她头顶的爱心多到把走廊堵住了。\n「我会准时下班的！一定！」",
+      "next": "d_maid"
+    },
+    {
+      "id": "d_maid",
+      "type": "dialogue",
+      "name": "我是一个按钮 · 对话",
+      "speaker": "我是一个按钮",
+      "text": "「请按我。」\n戴墨镜的女仆头顶浮着一个绿色像素按钮，笑得非常自信。\n「按一下，今天就不用上班了。要按吗？」",
+      "background": "assets/ui/dialogue-bg-abyss.png",
+      "portrait": "assets/portraits/maid-1.webp",
+      "portraitPos": "center",
+      "portraitScale": 100,
+      "checkpoint": true,
+      "choices": [
+        { "id": "maid_c1", "text": "「按钮不能乱按。」", "next": "b_maid" },
+        { "id": "maid_c2", "text": "轻轻按一下她头顶的按钮。", "next": "s_maid" }
+      ],
+      "next": ""
+    },
+    {
+      "id": "b_maid",
+      "type": "badEnd",
+      "name": "我是一个按钮 · 坏结局",
+      "text": "你按下了按钮。\n整栋大楼的电源被切断，你在黑暗里加了三天三夜的班，负责把电闸按回来。",
+      "retryNodeId": ""
+    },
+    {
+      "id": "s_maid",
+      "type": "success",
+      "name": "我是一个按钮 · SUCCESS",
+      "variant": "normal",
+      "background": "assets/ui/dialogue-bg-abyss.png",
+      "portrait": "assets/portraits/maid-2.webp",
+      "portraitPos": "center",
+      "portraitScale": 100,
+      "speaker": "我是一个按钮",
+      "text": "「……不是那个按钮啦。」\n她慌忙摘下墨镜，眼睛红红的，头顶的按钮闪了两下。\n「但是，谢谢你按了我。」",
+      "next": "n_end"
+    },
+    {
+      "id": "n_end",
+      "type": "end",
+      "name": "结束 · 打卡成功",
+      "title": "CLOCK IN",
+      "text": "你终于坐回工位，打卡成功。\n今天，也正常上班了。\n明天，她们大概还会在。",
+      "buttonLabel": "重新开始"
+    }
+  ]
+}

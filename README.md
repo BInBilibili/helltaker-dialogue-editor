@@ -32,6 +32,13 @@
 
 预设项目是只读的，不会写入访客的浏览器存储。把自己的项目「导出 JSON」后放进 `presets/` 就能分享，详见 [presets/README.md](presets/README.md)。
 
+### 内置预设
+
+**今天也正常上班**（`presets/huawei-commute.json`）：你是华为的员工，今天也要正常去上班。一路会遇到 12 位角色，每人一个对话、两个选项、一个 BAD END 和一个 SUCCESS。
+
+- 纯游玩：<https://binbilibili.github.io/helltaker-dialogue-editor/?play=1&preset=huawei-commute>
+- 编辑器打开：<https://binbilibili.github.io/helltaker-dialogue-editor/?preset=huawei-commute>
+
 ---
 
 ## 1. 快速开始

@@ -22,8 +22,8 @@
   },
   "samples": {
     "folder": "portraits",
-    "count": 22,
-    "note": "AI-drawn fan art supplied by the editor author for the demo project; not game assets. WebP, max side 1100px, transparent background. All 22 are portraits, including 3-person / dragon group shots.",
+    "count": 24,
+    "note": "AI-drawn fan art supplied by the editor author for the demo project; not game assets. WebP, max side 1100px. 24 transparent portraits (including a 3-person group shot, a wing-pair dragon and a pink-haired angel) plus 1 cutscene sketch.",
     "portraits": [
       {
         "file": "murasame-1.webp",
@@ -200,9 +200,34 @@
           1100,
           1100
         ]
+      },
+      {
+        "file": "yujie-1.webp",
+        "name": "御姐 · 抱石",
+        "size": [
+          825,
+          1100
+        ]
+      },
+      {
+        "file": "yujie-2.webp",
+        "name": "御姐 · 抚胸",
+        "size": [
+          617,
+          1100
+        ]
       }
     ],
-    "scenes": []
+    "scenes": [
+      {
+        "file": "wake-up.webp",
+        "name": "员工起床",
+        "size": [
+          1100,
+          560
+        ]
+      }
+    ]
   },
   "frames": {
     "booper": { "folder": "booper", "count": 17, "source": "booper0001..booper0017", "tint": "#ff2f4a", "usage": "idle click indicator", "still": "booper.png" },

@@ -146,6 +146,12 @@
     { src: "assets/portraits/feicui-2.webp", name: "翡翠树 · 端盘", kind: "立绘" },
     { src: "assets/portraits/dragon-1.webp", name: "白龙 · 张牙", kind: "立绘" },
     { src: "assets/portraits/dragon-2.webp", name: "白龙 · 蜷手", kind: "立绘" },
+    { src: "assets/portraits/yujie-1.webp", name: "御姐 · 抱石", kind: "立绘" },
+    { src: "assets/portraits/yujie-2.webp", name: "御姐 · 抚胸", kind: "立绘" },
+  ];
+
+  const SAMPLE_SCENES = [
+    { src: "assets/portraits/wake-up.webp", name: "员工起床", kind: "剧情图" },
   ];
 
   const BUILTIN_CUTSCENES = [
@@ -158,6 +164,7 @@
     { src: ASSET.cutscene[6], name: "剧情 06 · 酒吧", kind: "剧情图" },
     { src: ASSET.cutscene[7], name: "剧情 07 · 骷髅", kind: "剧情图" },
     { src: ASSET.cutscene[8], name: "剧情 08 · 聚会", kind: "剧情图" },
+    ...SAMPLE_SCENES,
   ];
 
   const BUILTIN_PORTRAITS = [
